@@ -1,0 +1,113 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" href="../css/calendar.css" />
+<title>calendar-sample</title>
+<style>
+*{ padding:0; margin:0;}
+body{ font-size:12px;}
+#txt_1,#txt_2{ position:absolute; top:100px; left:500px; border:1px solid #cccccc; height:20px; line-height:20px; width:200px;}
+
+#txt_2{ top:400px; }
+</style>
+</head>
+
+<body>
+
+
+
+
+<input type="text" id="txt_1" value="请输入"/>
+<input type="hidden" id="hid_1" value=""/>
+
+<input type="text" id="txt_2" value="请输入"/>
+<input type="hidden" id="hid_2" value=""/>
+</body>
+</html>
+
+
+<script src="http://wres.mangocity.com/js/lib/seajs/2.1.1/sea.js"></script>
+<script>
+</script>
+
+<script>
+seajs.config({
+  plugins: ["style"],
+  alias:{
+     "seajs-style":"seajs/2.1.1/seajs-style"//样式插件
+  },
+  preload:["seajs-style"]
+});
+
+
+
+seajs.use(["jquery/1.11.0/jquery.cmd.min","calendar/1.2.1/calendar.cmd.min"],function($,calendar){
+  var txt_1 =  $("#txt_1");
+  var txt_2 =  $("#txt_2");
+  var cal_1 = cal_2 = null;
+  var datePattern = /\d{4}-\d{2}-\d{2}/i;
+  
+  cal_1 =  calendar({
+          num: 4,
+          skin: 2,
+          initCallback: function(trigger){
+            if (cal_2 && cal_2.isCreated) {
+              cal_2.destroy();
+            }
+          },
+          selectedCallback: function(){
+              txt_1.val($(this).attr("date") +"  " + ["周日","周一","周二","周三","周四","周五","周六"][$(this).attr("week")]);
+              var date = txt_1.val().match(datePattern);
+              if (date) {
+                cal_2.setCurrentMonth(calendar.util.parseDate(date[0]));
+              }
+             // txt_2.trigger("click");
+          }
+  });
+  
+  txt_1.bind("click.calendar", function(e){
+        if (!e.isPropagationStopped()) {
+          e.stopPropagation();
+        }
+        
+        if (cal_1.isCreated) {
+          cal_1.destroy();
+        } else {
+          $('body').append(cal_1.buildCalendar());
+        }
+        
+        
+    });
+    
+  cal_2 =  calendar({
+          num: 3,
+          isDayClickable: function(date, today){
+           return true;
+          },
+          initCallback: function(){
+            if (cal_1 && cal_1.isCreated) {
+              cal_1.destroy();
+            }
+          },
+          selectedCallback: function(){
+              txt_2.val($(this).attr("date") +"  " + ["周日","周一","周二","周三","周四","周五","周六"][$(this).attr("week")]);
+          }
+  });
+  txt_2.bind("click.calendar", function(e){
+        if (!e.isPropagationStopped()) {
+          e.stopPropagation();
+        }
+        
+        if (cal_2.isCreated) {
+          cal_2.destroy();
+        } else {
+          cal_2.buildCalendar();
+        }
+        
+        
+    });
+});
+
+
+</script>
