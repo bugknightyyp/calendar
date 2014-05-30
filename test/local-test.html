@@ -1,0 +1,123 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" href="../css/calendar.css" />
+<title>calendar-sample</title>
+<style>
+*{ padding:0; margin:0;}
+body{ font-size:12px;}
+#txt_1,#txt_2{ position:absolute; top:100px; left:500px; border:1px solid #cccccc; height:20px; line-height:20px; width:200px;}
+
+#txt_2{ top:400px; }
+</style>
+</head>
+
+<body>
+
+<!-- S 调试-->
+<div id="log" style="float:right;"><wb:follow-button uid="1797543417" type="red_1" width="67" height="24" ></wb:follow-button></div>
+<!-- E 调试-->
+
+<div class="calendar" style="display:block;">
+    <div class="cal-btn-l" ></div>
+	  <div class="cal-btn-r"></div>
+	  <div class="cal-wraps">
+	      <div class="cal-wrap">
+		         <div class="cal-wrap-h"><span>2013</span>年<span>1</span>日</div>
+				 <div class="cal-wrap-b sepline">
+					 <ul class="cal-week"><li>日</li><li>一</li><li>二</li><li>三</li><li>四</li><li>五</li><li>六</li></ul>
+					 <ul class="cal-date">
+						 <li class="current">1</li><li class="gray">2</li><li class="hover">3</li><li>4</li><li>5</li><li>6</li><li>7</li>
+						 <li>1</li><li>2</li><li>3</li><li>4</li><li>5</li><li>6</li><li>7</li>
+						 <li>1</li><li>2</li><li>3</li><li>4</li><li>5</li><li>6</li><li>7</li>
+						 <li>1</li><li>2</li><li>3</li><li>4</li><li>5</li><li>6</li><li>7</li>
+						 <li>1</li><li>2</li><li>3</li><li>4</li><li>5</li><li>6</li><li>7</li>
+						 <li>1</li><li>2</li><li>3</li><li>4</li><li>5</li><li>6</li><li>7</li>
+					 </ul>
+			   </div>
+		  </div>
+	  </div>  
+</div>
+
+
+<input type="text" id="txt_1" value="点击我选择日期"/>
+<input type="hidden" id="hid_1" value=""/>
+
+<input type="text" id="txt_2" value="请输入"/>
+<input type="hidden" id="hid_2" value=""/>
+</body>
+</html>
+
+
+<script src="http://wres.mangocity.com/js/lib/seajs/2.1.1/sea.js"></script>
+<script>
+</script>
+
+<script>
+seajs.config({
+  plugins: ["style"],
+  alias:{
+     "seajs-style":"seajs/2.1.1/seajs-style",//样式插件
+     "style": "../css/calendar.css"
+  },
+  preload:["seajs-style"]
+});
+
+
+
+seajs.use(["jquery/1.10.2/jquery-1.10.2.cmd.js","../src/calendar.js"],function($,calendar){
+  var txt_1 =  $("#txt_1");
+  var txt_2 =  $("#txt_2");
+  var cal_1 = cal_2 = null;
+  var datePattern = /\d{4}-\d{2}-\d{2}/i;
+  
+  cal_1 =  calendar({
+          num: 4,
+          skin: 2,
+          initCallback: function(trigger){
+            var date = txt_1.val().match(datePattern);
+            if (date) {
+                date = calendar.util.parseDate(date[0]);
+                this.setMonthCursor(date);
+            }
+          },
+          selectedCallback: function(){
+              txt_1.val($(this).attr("date") +"  " + ["周日","周一","周二","周三","周四","周五","周六"][$(this).attr("week")]);
+              cal_1.destroy();
+          },
+          handleSomeDay: function(someDate){
+            var date = txt_1.val().match(datePattern);
+              if (date) {
+                date = calendar.util.parseDate(date[0]);
+                if (calendar.util.intervalDate(someDate, date) == 0) {
+                  $(this).addClass('selected');
+                }
+              } 
+          },
+          destroyCallback: function(){
+            
+          }
+  });
+  
+  txt_1.bind("click.calendar", function(e){
+        if (!e.isPropagationStopped()) {
+          e.stopPropagation();
+        }
+        
+        if (cal_1.isCreated) {
+          cal_1.destroy();
+        } else {
+          var offset = $(this).offset();
+          $('body').append(cal_1.buildCalendar().css({left: offset.left, top: offset.top + 20}));
+        }   
+    });
+  $(document).bind('click.calendar', function(){
+     cal_1.destroy();
+  });
+    
+  
+});
+
+
+</script>

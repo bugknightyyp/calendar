@@ -1,0 +1,35 @@
+@imgPath: "../img/";
+
+.calendar{ position:absolute; border:1px solid #ffcc00; width:206px; background-color:#ffffff; left:0; top:0;z-index:10000;}
+.calendar ul li{ list-style:none;}
+.calendar .cal-btn-l{ position:absolute; left:5px; top:4px; width:17px; height:17px; background-image: url("@{imgPath}cal-bg.png");background-repeat:no-repeat; cursor:pointer;}
+.calendar .cal-btn-r{ position:absolute;  right:5px; top:4px; width:17px; height:17px;background-image: url("@{imgPath}cal-bg.png");background-repeat:no-repeat; cursor:pointer;}
+.calendar .cal-wraps{ overflow:hidden;}
+.calendar .cal-wrap{ width:206px; overflow:hidden; float:left;}
+.calendar .cal-wrap-h{ width:100%; text-align:center;height:24px; line-height:24px; font-size:15px;}
+.calendar .cal-wrap-h span{ font-family:Arial; padding:0 3px;}
+.calendar .cal-wrap-b{ width:196px; padding:0 5px;font-family:Arial; font-size:12px; margin:5px 0;}
+.calendar ul.cal-week{ background-color:#f5f5f5; width:196px; overflow:hidden;}
+.calendar ul.cal-week li{ float:left; height:24px; line-height:24px; width:28px; float:left; text-align:center;}
+.calendar ul.cal-date{ width:196px; overflow:hidden; padding-top:2px;}
+.calendar ul.cal-date li{ width:28px; height:26px; line-height:26px; float:left; text-align:center; cursor:pointer;}
+.calendar ul.cal-date li.disable{ color:#cbcbcb; cursor:default;cursor: not-allowed}
+.calendar ul.cal-date li.none{color:#cbcbcb; cursor:default;}
+.calendar ul.cal-date li.clickable:hover{ border:1px solid #ffcc00; width:26px; height:24px; line-height:24px;}
+
+/*skin*/
+.calendar-skin-1{ border-color:#ffcc00;}
+.calendar-skin-1 .cal-btn-l{ background-position:left top;}
+.calendar-skin-1 .cal-btn-r{ background-position:-19px top;}
+.calendar-skin-1 .cal-wrap-h{ background-color:#FFF5C8;}
+.calendar-skin-1 ul.cal-date li.selected{ background: url("@{imgPath}cal-bg.png") left -19px no-repeat scroll  transparent;}
+.calendar-skin-1 .sepline{background:url("@{imgPath}re-sep-line-1.jpg") right top repeat-y;}
+.calendar-skin-1 ul.cal-date li.clickable:hover{ border-color:#ffcc00;}
+
+.calendar-skin-2{ border-color:#6eaeeb;}
+.calendar-skin-2 .cal-btn-l{ background-position:-38px top;}
+.calendar-skin-2 .cal-btn-r{ background-position:-57px top;}
+.calendar-skin-2 .cal-wrap-h{ background-color:#a7d8fe;}
+.calendar-skin-2 ul.cal-date li.selected{ background: url("@{imgPath}cal-bg.png") -38px -19px no-repeat scroll  transparent;}
+.calendar-skin-2 .sepline{background:url("@{imgPath}re-sep-line-2.jpg") right top repeat-y;}
+.calendar-skin-2 ul.cal-date li.clickable:hover{ border-color:#6eaeeb;}
